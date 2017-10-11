@@ -150,6 +150,7 @@ namespace LiquidProjections.NHibernate
             try
             {
                 using (ISession session = sessionFactory())
+                using (var tx = session.BeginTransaction()) 
                 {
                     session.BeginTransaction();
 
@@ -159,7 +160,7 @@ namespace LiquidProjections.NHibernate
                     }
 
                     StoreLastCheckpoint(session, batch.Last());
-                    session.Transaction.Commit();
+                    tx.Commit();
                 }
             }
             catch (ProjectionException projectionException)
